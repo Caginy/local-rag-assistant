@@ -1,0 +1,13 @@
+Buyuk veri (big data), geleneksel veritabani sistemlerinin isleyemeyecegi kadar buyuk, hizli ve cesitli veri kumelerini ifade eder. Buyuk verinin temel ozellikleri hacim (volume), hiz (velocity), cesitlilik (variety) ve dogruluk (veracity) olarak dort V ile ozetlenir.
+
+Veri madenciligi, buyuk veri kumeleri icinde gizli kaliplar, iliskiler ve anomalileri kesfetmek icin kullanilan istatistiksel ve makine ogrenmesi tekniklerinin butunudur. Siniflandirma, kumeleme ve birliktelik kurallari en yaygin veri madenciligi yontemleridir.
+
+Hadoop, buyuk veri isleme icin kullanilan acik kaynakli bir dagitik sistemdir. HDFS (Hadoop Distributed File System) verileri birden fazla sunucuya dagitarak saklar, MapReduce ise bu veriler uzerinde paralel islem yapmayi saglar.
+
+Makine ogrenmesinde gozetimli ogrenme (supervised learning), etiketli veri kullanarak model egitmeyi ifade eder. Gozetimsiz ogrenme (unsupervised learning) ise etiketlenmemis veride kaliplar bulmaya calisir. Yari gozetimli ve pekistirmeli ogrenme de diger onemli yaklasimlardir.
+
+Veri on isleme (data preprocessing), ham veriyi analiz icin uygun hale getirme surecidir. Eksik veri doldurma, aykiri deger tespiti, normalizasyon ve kategorik degiskenlerin sayisallastirilmasi bu surecin temel adimlaridir.
+
+SQL (Structured Query Language), iliskisel veritabanlarinda veri sorgulamak icin kullanilan standart bir dildir. SELECT, INSERT, UPDATE ve DELETE temel SQL komutlaridir. JOIN islemleri, birden fazla tablodaki verileri birlestirmek icin kullanilir.
+
+Python programlama dilinde pandas kutuphanesi, veri manipulasyonu ve analizi icin en yaygin kullanilan araclardan biridir. DataFrame yapisi, tablo seklindeki verileri satir ve sutunlar halinde islemeyi kolaylastirir.
