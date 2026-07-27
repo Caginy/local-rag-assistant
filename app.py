@@ -1,9 +1,11 @@
 import sqlite3
 import json
 import math
+from flask import Flask, render_template, request, jsonify
 from foundry_local_sdk import Configuration, FoundryLocalManager
 
-# 1. Yapilandirmayi baslat
+app = Flask(__name__)
+
 config = Configuration(app_name="RagAssistant")
 FoundryLocalManager.initialize(config)
 manager = FoundryLocalManager.instance
@@ -11,28 +13,24 @@ catalog = manager.catalog
 
 print("Modeller yukleniyor, lutfen bekleyin...")
 
-# 2. Embedding modelini yukle
 embed_model = catalog.get_model("qwen3-embedding-0.6b")
 embed_model.download()
 embed_model.load()
 embed_client = embed_model.get_embedding_client()
 
-# 3. Chat modelini yukle
-chat_model = catalog.get_model("phi-3.5-mini")
+chat_model = catalog.get_model("qwen2.5-0.5b")
 chat_model.download()
 chat_model.load()
 chat_client = chat_model.get_chat_client()
 
-print("Modeller hazir!\n")
+print("Modeller hazir!")
 
-# 4. Kosinus benzerligi fonksiyonu
 def cosine_similarity(v1, v2):
     dot = sum(a * b for a, b in zip(v1, v2))
     norm1 = math.sqrt(sum(a * a for a in v1))
     norm2 = math.sqrt(sum(b * b for b in v2))
     return dot / (norm1 * norm2)
 
-# 5. En alakali chunk'lari bulan fonksiyon
 def get_top_chunks(query, top_k=2):
     query_response = embed_client.generate_embeddings([query])
     query_vector = query_response.data[0].embedding
@@ -52,7 +50,6 @@ def get_top_chunks(query, top_k=2):
     scored.sort(key=lambda x: x[0], reverse=True)
     return scored[:top_k]
 
-# 6. Retrieval + LLM'i birlestiren ana fonksiyon (kaynak gosterme ile)
 def answer_query(question):
     top_chunks = get_top_chunks(question, top_k=2)
 
@@ -80,26 +77,26 @@ def answer_query(question):
 
     return response.choices[0].message.content, top_chunks
 
-# 7. Interaktif CLI dongusu
-print("=" * 50)
-print("Buyuk Veri Analistligi RAG Asistani")
-print("Cikmak icin 'exit' yazin.")
-print("=" * 50)
+@app.route("/")
+def index():
+    return render_template("index.html")
 
-while True:
-    question = input("\nSorunuz: ").strip()
-
-    if question.lower() in ["exit", "quit", "cikis"]:
-        print("Gorusmek uzere!")
-        break
+@app.route("/ask", methods=["POST"])
+def ask():
+    data = request.get_json()
+    question = data.get("question", "").strip()
 
     if not question:
-        continue
+        return jsonify({"answer": "Lutfen bir soru yazin.", "sources": []})
 
     answer, top_chunks = answer_query(question)
 
-    print("\n[Kullanilan kaynaklar:]")
-    for score, content in top_chunks:
-        print(f"  (skor: {score:.3f}) {content[:60]}...")
+    sources = [
+        {"score": round(score, 3), "text": content[:80]}
+        for score, content in top_chunks
+    ]
 
-    print(f"\nCevap: {answer}")
+    return jsonify({"answer": answer, "sources": sources})
+
+if __name__ == "__main__":
+    app.run(debug=False, port=5000)

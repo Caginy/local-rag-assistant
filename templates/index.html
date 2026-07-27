@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Local RAG Assistant</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="topbar">
+  <span class="logo">🧠 Local RAG Assistant</span>
+  <span class="badge">Powered by Foundry Local — Tamamen Cevrimdisi</span>
+</div>
+
+<div class="chat-container" id="chat-container">
+  <div class="message bot">
+    Merhaba! Ben yerel RAG asistanınım. Büyük veri analistliği dokümanlarınız hakkında soru sorabilirsiniz.
+    <br><br>
+    Şu an yüklü dokümanlar: <b>Hadoop, SQL, Pandas, Veri Madenciliği, Makine Öğrenmesi</b> konularında bilgi içeriyor.
+  </div>
+</div>
+
+<div class="quick-questions">
+  <button class="chip" onclick="askQuick('Hadoop nedir?')">Hadoop nedir?</button>
+  <button class="chip" onclick="askQuick('SQL nedir?')">SQL nedir?</button>
+  <button class="chip" onclick="askQuick('Pandas kutuphanesi ne ise yarar?')">Pandas nedir?</button>
+  <button class="chip" onclick="askQuick('Big data 4V ozelligi nedir?')">Big Data 4V</button>
+</div>
+
+<div class="input-bar">
+  <input type="text" id="question-input" placeholder="Soru sor...">
+  <button id="send-btn" onclick="askQuestion()">Gönder</button>
+</div>
+
+<script src="/static/script.js"></script>
+</body>
+</html>
